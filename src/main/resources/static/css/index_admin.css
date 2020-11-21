@@ -1,0 +1,144 @@
+body {
+  background-color: #f5f5f5;
+}
+.top {
+  width: auto;
+  height: 4vh;
+  margin: 2vh 3vw;
+  font-size: 2.8vh;
+  border-radius: 1vh;
+  font-weight: bold;
+  line-height: 6vh;
+  text-align: center;
+}
+.nav {
+  width: auto;
+  height: 30vh;
+  border-radius: 1vh;
+  margin: 4vh 3vw;
+  background-color: #fff;
+  font-size: 18px;
+}
+.nav div {
+  width: auto;
+  height: 10vh;
+  line-height: 10vh;
+  border: 1px solid #efefef;
+  padding-left: 5vw;
+}
+.nav div select {
+  font-size: 20px;
+}
+.search {
+  height: 6vh;
+  width: auto;
+  border-radius: 1vh;
+  margin: 4vh 3vw;
+  line-height: 6vh;
+  text-align: center;
+}
+.search .search_btn {
+  width: 40vw;
+  height: 5.1vh;
+  border-radius: 1vh;
+  outline: none;
+  font-size: 20px;
+  background-color: #ea3323;
+  border: 1px solid #fff;
+  color: #fff;
+}
+.search_info {
+  height: 30vh;
+  width: auto;
+  border-radius: 1vh;
+  margin: 4vh 3vw;
+  background-color: #fff;
+  overflow: auto;
+}
+.search_info ul a {
+  color: black;
+  text-decoration: none;
+}
+.search_info ul a:hover {
+  background-color: #ade1f5;
+}
+.search_info ul li {
+  height: 10.5vh;
+  border-bottom: 1px solid #efefef;
+  font-size: 2.5vh;
+  font-weight: bold;
+  padding-left: 3vw;
+}
+.search_info ul li span.time {
+  display: inline-block;
+  font-size: 2.1vh;
+  font-weight: normal;
+  margin-left: 2vw;
+  margin-top: 2.5vh;
+}
+.search_info ul li span.teacher {
+  display: inline-block;
+  font-size: 2vh;
+  font-weight: normal;
+  color: #bcbcba;
+  margin-top: 1.5vh;
+}
+.search_info ul li .eva_btn {
+  width: 15vw;
+  height: 4vh;
+  float: right;
+  margin-right: 4vw;
+  margin-top: -1.3vh;
+  background-color: #007bff;
+  border-radius: 1vh;
+  color: #fff;
+  border: 1px solid #fff;
+}
+.bottom {
+  height: 12vh;
+  width: auto;
+  background-color: #fff;
+}
+.bottom ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+.bottom ul li.func1,
+.bottom ul li.func2 {
+  height: 8vh;
+  padding-top: 3vh;
+  text-align: center;
+  font-size: 4vh;
+}
+.bottom ul li.func1 span,
+.bottom ul li.func2 span {
+  font-size: 2vh;
+  display: block;
+  margin-top: 1vh;
+  width: 25vw;
+}
+.bottom ul a {
+  outline: none;
+  text-decoration: none;
+  color: #000;
+}
+.bottom ul li.logo {
+  height: 9vh;
+  width: 9vh;
+  font-size: 3vh;
+  margin-top: 1.5vh;
+  background-color: #ea3323;
+  font-weight: bold;
+  line-height: 9vh;
+  border-radius: 50%;
+  color: #fff;
+}
+.bottom ul li:active {
+  color: #d44138;
+}
+.bottom ul li.func1 {
+  color: #d44138;
+}
+/*# sourceMappingURL=./index_admin.css.map */

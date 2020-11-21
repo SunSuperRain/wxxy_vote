@@ -1,0 +1,101 @@
+body {
+  background-color: #f5f5f5;
+}
+.title {
+  width: auto;
+  margin: 2vh 3vw;
+  font-size: 20px;
+  border-radius: 1vh;
+  font-weight: bold;
+  line-height: 20px;
+  text-align: center;
+}
+div.photo {
+  width: auto;
+  height: 290px;
+  background-color: #fff;
+  margin: 2vh 3vw;
+  border-radius: 1vh;
+  overflow: hidden;
+  vertical-align: middle;
+  text-align: center;
+}
+div.photo img {
+  height: 290px;
+}
+div.login {
+  width: auto;
+  height: 230px;
+  background-color: #fff;
+  margin: 3vh 3vw;
+  border-radius: 1vh;
+}
+div.login .list {
+  padding-top: 20px;
+}
+div.login .list input.login {
+  padding-left: 6px;
+}
+div.login .list div.check_select div.check_box {
+  display: inline-block;
+  width: auto;
+  height: 33px;
+}
+div.login .list div.check_select div.check_box .remember {
+  float: left;
+  width: 18px;
+  margin-left: 23vw;
+  margin-top: 10px;
+}
+div.login .list div.check_select div.check_box .em_remember {
+  display: inline-table;
+  float: left;
+  width: 23vw;
+  font-size: 16px;
+  margin-top: 15px;
+  margin-left: 1vw;
+}
+div.login .list div.check_select div.selected {
+  display: inline-block;
+  margin-top: 10px;
+}
+div.login .list div.check_select div.selected .slected_op {
+  float: left;
+  width: 100px;
+  font-size: 16px;
+}
+div.login .list button {
+  width: 30vw;
+  height: 42px;
+  margin: 2vh 0 0 32vw;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 1vh;
+  background-color: #d44138;
+  border: 1px solid #fff;
+}
+div.login .list button:focus {
+  outline: none;
+}
+div.login span {
+  display: inline-block;
+  width: 18vw;
+  margin-left: 4vw;
+}
+div.login input {
+  width: 60vw;
+  height: 30px;
+  margin-top: 10px;
+}
+div.login input:focus {
+  outline: none;
+}
+.footer {
+  margin-top: 40px;
+  text-align: center;
+}
+.footer ul li {
+  height: 20px;
+  margin-top: 5px;
+}
+/*# sourceMappingURL=./login.css.map */

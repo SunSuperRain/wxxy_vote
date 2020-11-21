@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>登录</title>
+    <!-- 引入重置样式表 -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <!-- 引入当前页面的样式表 -->
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <!-- 引入字体库 -->
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+    <script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}"></script>
+    <script type="text/javascript" th:src="@{/js/login.js}"></script>
+    <script>
+
+        //发送ajax请求获取角色信息列表
+        $(function () {
+            $.ajax({
+                url: "" + '/role/roleList',
+                dataType: 'JSON',
+                async: false,
+                success: function (res) {
+                    //获取到权限信息列表   遍历生成权限信息
+                    var $select = $('#select');
+                    for (var i=0; i<res.length; i++){
+                        $select.append('<option value=' + res[i].roleId + '>' + res[i].roleName + '</option>');
+                    }
+                }
+            })
+        })
+
+    </script>
+</head>
+<body>
+    <div class="title">皖西学院教学信息评价系统</div>
+    <div class="photo">
+        <img th:src="@{/img/sb2.jpg}">
+    </div>
+    <div class="login">
+        <div class="list">
+            <form id="form" th:action="@{/login}" method="post">
+                <span>用户名：</span>
+                <input type="text" name="username" placeholder="用户名（学号）" class="login" id="username">
+                <br>
+                <span>密码：</span>
+                <input type="password" name="password" placeholder="密码（身份证后六位[X大写]）" class="login" id="password">
+                <br>
+                <div class="check_select">
+
+                    <div class="check_box">
+                        <input type="checkbox" name="rememberMe" value="true" class="remember"><em class="em_remember">记住我</em>
+                    </div>
+
+                    <div class="selected">
+                        <select name="roleId" id="select" class="slected_op">
+                            <option value="-1">请选择角色</option>
+                        </select>
+                    </div>
+
+                </div>
+                <button onClick="return checkForm()" type="submit" id="sub_btn">登录</button>
+                <div th:if="${message} != null" style="color: red; text-align: center;" th:text="${message}"></div>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <ul>
+            <li>版权所有&nbsp;&copy;&nbsp;皖西学院</li>
+            <li>地址：安徽省六安市云露桥西月亮岛</li>
+            <li>邮编：237012</li>
+        </ul>
+    </div>
+</body>
+</html>

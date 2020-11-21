@@ -1,0 +1,43 @@
+.bottom {
+  height: 12vh;
+  width: auto;
+  background-color: #fff;
+}
+.bottom ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+.bottom ul li.func {
+  height: 8vh;
+  padding-top: 3vh;
+  text-align: center;
+  font-size: 4vh;
+}
+.bottom ul li.func span {
+  font-size: 2vh;
+  display: block;
+  margin-top: 1vh;
+  width: 25vw;
+}
+.bottom ul a {
+  outline: none;
+  text-decoration: none;
+  color: #000;
+}
+.bottom ul li.logo {
+  height: 9vh;
+  width: 9vh;
+  font-size: 3vh;
+  margin-top: 1.5vh;
+  background-color: #ea3323;
+  font-weight: bold;
+  line-height: 9vh;
+  border-radius: 50%;
+  color: #fff;
+}
+.bottom ul li:hover {
+  color: #d44138;
+}
+/*# sourceMappingURL=./footer.css.map */

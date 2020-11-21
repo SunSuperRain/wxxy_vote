@@ -1,0 +1,80 @@
+body {
+  background-color: #f5f5f5;
+}
+a {
+  color: #000;
+}
+.eva_info {
+  width: auto;
+  height: 8vh;
+  font-weight: bold;
+  font-size: 2.8vh;
+  border-bottom: 1px solid #efefef;
+}
+.eva_info ul > li {
+  float: left;
+  margin-top: 3vh;
+}
+.eva_info .eva_info1 {
+  width: 10vw;
+  text-align: center;
+}
+.eva_info .eva_info2 {
+  width: 90vw;
+  text-align: center;
+  margin-left: -5vw;
+}
+.eva_form {
+  width: auto;
+  height: 80vh;
+  overflow: auto;
+  border-bottom: 1px solid #efefef;
+}
+.eva_form ul li {
+  height: 23vh;
+  border-bottom: 1px solid #efefef;
+  font-size: 2.3vh;
+  padding-left: 3vw;
+}
+.eva_form ul li em {
+  display: inline-block;
+  width: 30vw;
+  margin-top: 2vh;
+  margin-left: 5vw;
+}
+.eva_form ul li .em_first {
+  display: inline-block;
+  margin-left: 10vw;
+}
+.eva_form ul li span {
+  display: inline-block;
+  font-size: 20px;
+  margin-top: 1vh;
+}
+.eva_form ul li span.comment {
+  display: inline-block;
+  font-size: 14px;
+  color: #6e6e6e;
+  width: 60vw;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.eva_bottom {
+  width: auto;
+  height: 9.6vh;
+}
+.eva_bottom button {
+  width: 30vw;
+  height: 42px;
+  margin: 3vh 0 0 35vw;
+  font-size: 2.5vh;
+  color: #fff;
+  border-radius: 1vh;
+  background-color: #d44138;
+  border: 1px solid #fff;
+}
+.eva_bottom button:focus {
+  outline: none;
+}
+/*# sourceMappingURL=./evaluation.css.map */
