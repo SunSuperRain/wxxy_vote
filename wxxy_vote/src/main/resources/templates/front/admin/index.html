@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>开始评教</title>
+    <!-- 引入重置样式表 -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <!-- 引入当前页面的样式表 -->
+    <link rel="stylesheet" th:href="@{/css/index_admin.css}">
+    <!-- 引入字体库 -->
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+    <script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}"></script>
+    <script type="text/javascript">
+        //异步请求   获取位置信息
+        $(function () {
+            $.ajax({
+                url: "" + "/place/getFatherPlace",
+                dataType: 'JSON',
+                async: false,
+                success: function (result) {
+                    var $fatherPlace = $('#fatherPlace');
+                    //动态生产内容
+                    for (var i=0; i<result.length; i++){
+                        $fatherPlace.append('<option value=' + result[i].placeId + '>' + result[i].placeName + '</option>');
+                    }
+                }
+            })
+        })
+
+        //异步提交地点信息位置
+        function checkPlace() {
+            var fatherPlace=document.getElementById('fatherPlace');
+            var placeId=fatherPlace.selectedIndex;
+            //获取目标地点id
+            var desId = fatherPlace[placeId].value;
+            var $sonPlace = $('#sonPlace');
+            //先将option内容删除
+            $("#sonPlace option").remove();
+            //添加第一项
+            $("#sonPlace").append("<option value='1'>"+'选择教室'+"</option>");
+            //利用ajax动态获取信息
+            $.ajax({
+                url: "" + "/place/getSonPlace",
+                dataType: 'JSON',
+                data: {placeId: desId},
+                async: false,
+                success: function (result) {
+                    //动态生成内容
+                    for (var i = 0; i < result.length; i++) {
+                        $sonPlace.append('<option name="text" value=' + result[i].placeId + '>' + result[i].placeName + '</option>');
+                    }
+                }
+            }
+            )}
+    </script>
+</head>
+<body>
+    <div class="top">
+        <h1>-- 欢迎评教 --</h1>
+    </div>
+    <div class="nav">
+        <div class="nav_week">
+            <span>周次：</span>
+            <select>
+                <option>第一周</option>
+                <option>第二周</option>
+                <option>第三周</option>
+                <option>第四周</option>
+                <option>第五周</option>
+                <option>第六周</option>
+                <option>第七周</option>
+                <option>第八周</option>
+                <option>第九周</option>
+                <option>第十周</option>
+                <option>第十一周</option>
+                <option>第十二周</option>
+                <option>第十三周</option>
+                <option>第十四周</option>
+                <option>第十五周</option>
+                <option>第十六周</option>
+            </select>    
+        </div>
+        <div  class="nav_time">
+            <span>星期：</span>
+            <select>
+                <option>星期一</option>
+                <option>星期二</option>
+                <option>星期三</option>
+                <option>星期四</option>
+                <option>星期五</option>
+                <option>星期六</option>
+                <option>星期七</option>
+            </select>    
+        </div>
+        <div class="nav_location">
+            <span class="nav_location_area">教学地点：</span>
+
+            <select onchange="checkPlace()" id="fatherPlace">
+                <option value="-1">选择地点</option>
+            </select>
+
+            <span class="nav_location_classroom">教室：</span>
+
+            <select id="sonPlace">
+                <option value="-1">选择教室</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="search">
+        <a href="javascript:;"><button class="search_btn">查询</button></a>
+    </div>
+    <div class="search_info">
+        <ul>
+            <li class="eva_info">计算机组成原理<span class="time">周一 1-2</span><br><span class="teacher">电子与信息工程学院（时老师）</span><a th:href="@{/reply/getReply}"><button class="eva_btn">评教</button></a></li>
+            <li class="eva_info">计算机组成原理<span class="time">周一 1-2</span><br><span class="teacher">电子与信息工程学院（时老师）</span><a th:href="@{/reply/getReply}"><button class="eva_btn">评教</button></a></li>
+            <li class="eva_info">计算机组成原理<span class="time">周一 1-2</span><br><span class="teacher">电子与信息工程学院（时老师）</span><a th:href="@{/reply/getReply}"><button class="eva_btn">评教</button></a></li>
+            <li class="eva_info">计算机组成原理<span class="time">周一 1-2</span><br><span class="teacher">电子与信息工程学院（时老师）</span><a th:href="@{/reply/getReply}"><button class="eva_btn">评教</button></a></li>
+            <li class="eva_info">计算机组成原理<span class="time">周一 1-2</span><br><span class="teacher">电子与信息工程学院（时老师）</span><a th:href="@{/reply/getReply}"><button class="eva_btn">评教</button></a></li>
+        </ul>
+    </div>
+
+    <div class="bottom">
+        <ul>
+            <a href="javascript:;"><li class="func1"><i class="fas fa-list"></i><span>开始评教</span></li></a>
+            <li class="logo">&nbsp;皖&nbsp;院</li>
+            <a th:href="@{/user/info}"><li class="func2"><i class="fas fa-user"></i><span>个人中心</span></li></a>
+        </ul>
+    </div>
+</body>
+</html>

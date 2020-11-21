@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <title>个人中心</title>
+    <!-- 引入重置样式表 -->
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <!-- 引入当前页面的样式表 -->
+    <link rel="stylesheet" th:href="@{/css/info.css}">
+    <!-- 引入字体库 -->
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}">
+    <script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}"></script>
+    <script type="text/javascript"></script>
+</head>
+<body>
+
+    <div class="top">
+        <ul>
+            <li><div class="profile_photo"><img th:src="@{/img/QQ图片20201105152910.jpg}"></div><span>2019-2020-2</span></li>
+        </ul>
+    </div>
+
+    <div class="info">
+        <ul>
+            <li th:if="${user.getSystemName()} != null"><em>姓名：</em><span th:text="${user.getSystemName()}"></span></li>
+            <li th:if="${user.getUsername()} != null"><em>工号：</em><span th:text="${user.getUsername()}"></span></li>
+            <li th:if="${user.getClassNo()} != null"><em>班级号：</em><span th:text="${user.getClassNo()}"></span></li>
+            <li th:if="${user.getCollegeNo() != null}"><em>学院号：</em><span th:text="${user.getCollegeNo()}"></span></li>
+        </ul>
+        <a th:href="@{/user/toUpdatePassword}"><button>修改密码</button></a>
+        <a th:href="@{/user/logout}"><button>注 销</button></a>
+    </div>
+    <div class="bottom">
+        <ul>
+            <a th:href="@{/user/index}"><li class="func1"><i class="fas fa-list"></i><span>开始评教</span></li></a>
+            <li class="logo">&nbsp;皖&nbsp;院</li>
+            <a href="javascript:void(0);"><li class="func2"><i class="fas fa-user"></i><span>个人中心</span></li></a>
+        </ul>
+    </div>
+</body>
+</html>
