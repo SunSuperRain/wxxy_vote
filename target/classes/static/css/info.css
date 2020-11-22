@@ -1,0 +1,121 @@
+body {
+  background-color: #f5f5f5;
+}
+.top {
+  height: 14vh;
+  width: auto;
+  border-radius: 1vh;
+  margin: 4vh 3vw;
+  background-color: #fff;
+}
+.top ul {
+  color: #acb2b7;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+.top ul li {
+  float: left;
+  padding-top: 3vh;
+  line-height: 4vh;
+  vertical-align: middle;
+  text-align: center;
+}
+.top ul li span {
+  color: #000;
+}
+.top ul li div > img {
+  width: 10vh;
+  border-radius: 50%;
+}
+.top ul li div.profile_photo {
+  width: 10vh;
+  height: 10vh;
+  border-radius: 50%;
+  border: 1px solid red;
+  margin: 1vw auto;
+  margin-top: -5vh;
+}
+.info {
+  height: 62vh;
+  width: auto;
+  margin: 4vh 3vw;
+  border-radius: 1vh;
+  background-color: #fff;
+}
+.info ul {
+  padding-left: 9vw;
+  padding-top: 6vh;
+  font-weight: 2vh;
+}
+.info ul li {
+  height: 5vh;
+}
+.info ul li em {
+  display: inline-block;
+  width: 22vw;
+  margin-right: 3vw;
+}
+.info button {
+  width: 30vw;
+  height: 7vh;
+  margin: 6vh 0 0 11vw;
+  font-size: 2.5vh;
+  color: #fff;
+  border-radius: 1vh;
+  background-color: #d44138;
+  border: 1px solid #fff;
+}
+.info button:focus {
+  outline: none;
+}
+.bottom {
+  height: 12vh;
+  width: auto;
+  background-color: #fff;
+}
+.bottom ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+.bottom ul li.func1,
+.bottom ul li.func2 {
+  height: 8vh;
+  padding-top: 3vh;
+  text-align: center;
+  font-size: 4vh;
+}
+.bottom ul li.func1 span,
+.bottom ul li.func2 span {
+  font-size: 2vh;
+  display: block;
+  margin-top: 1vh;
+  width: 25vw;
+}
+.bottom ul a {
+  outline: none;
+  text-decoration: none;
+  color: #000;
+}
+.bottom ul li.logo {
+  height: 9vh;
+  width: 9vh;
+  font-size: 3vh;
+  margin-top: 1.5vh;
+  background-color: #ea3323;
+  font-weight: bold;
+  line-height: 9vh;
+  border-radius: 50%;
+  color: #fff;
+}
+.bottom ul li:active {
+  color: #d44138;
+}
+.bottom ul li.func2 {
+  color: #d44138;
+}
+/*# sourceMappingURL=./info.css.map */
