@@ -3,6 +3,12 @@ package com.sun.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+/**
+ * @Description: 后台页面跳转所使用的类
+ * @Author: 张豆豆
+ * @Date: 2020-11-25 11:29:02
+ */
 @Controller
 public class pageController {
 
@@ -49,5 +55,10 @@ public class pageController {
     @RequestMapping("/timu")
     public String layuiTimu(){
         return "back/user/user/timu";
+    }
+
+    @RequestMapping("/app/message/index")
+    public String layuiMess(){
+        return "back/app/message/index";
     }
 }

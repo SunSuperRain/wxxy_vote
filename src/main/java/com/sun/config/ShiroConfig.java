@@ -86,6 +86,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
 
+        //后台拦截器
+
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
 
         //打开记住我的功能
