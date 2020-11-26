@@ -41,7 +41,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
           <li class="layui-nav-item" lay-unselect>
-            <a lay-href="/app/message/index" layadmin-event="message"  title="消息中心" lay-text="消息中心">
+            <a lay-href="/back/app/message/index" layadmin-event="message"  title="消息中心" lay-text="消息中心">
               <i class="layui-icon layui-icon-notice"></i>  
               
               <!-- 如果有新消息，则显示小圆点 -->
@@ -68,8 +68,8 @@
               <cite>贤心</cite>
             </a>
             <dl class="layui-nav-child">
-              <dd><a lay-href="/set/user/info">基本资料</a></dd>
-              <dd><a lay-href="/set/user/password">修改密码</a></dd>
+              <dd><a lay-href="/back/set/user/info">基本资料</a></dd>
+              <dd><a lay-href="/back/set/user/password">修改密码</a></dd>
               <hr>
               <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
             </dl>
@@ -87,7 +87,7 @@
       <!-- 侧边菜单 -->
       <div class="layui-side layui-side-menu">
         <div class="layui-side-scroll">
-          <div class="layui-logo" lay-href="home/console">
+          <div class="layui-logo" lay-href="/back/home/console">
             <span>后台管理</span>
           </div>
           
@@ -99,7 +99,7 @@
               </a>
               <dl class="layui-this layui-nav-child">
                 <dd>
-                  <a lay-href="/home/console">控制台</a>
+                  <a lay-href="/back/home/console">控制台</a>
                 </dd>
               </dl>
             </li>
@@ -110,7 +110,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd>
-                  <a lay-href="/template/addresslist">评价题目管理</a>
+                  <a lay-href="/back/template/addresslist">评价题目管理</a>
                 </dd>
               </dl>
             </dl>
@@ -122,13 +122,13 @@
               </a>
               <dl class="layui-nav-child">
                 <dd>
-                  <a lay-href="/administrators/list-person">人员管理</a>
+                  <a lay-href="/back/administrators/list-person">人员管理</a>
                 </dd>
                 <dd>
-                  <a lay-href="/administrators/list">后台管理员</a>
+                  <a lay-href="/back/administrators/list">后台管理员</a>
                 </dd>
                 <dd>
-                  <a lay-href="/administrators/role">角色管理</a>
+                  <a lay-href="/back/administrators/role">角色管理</a>
                 </dd>
               </dl>
             </li>
@@ -139,8 +139,8 @@
               </a>
               <dl class="layui-nav-child">
                 <dd class="layui-nav-itemed">
-                  <dd><a lay-href="/set/user/info">基本资料</a></dd>
-                  <dd><a lay-href="/set/user/password">修改密码</a></dd>
+                  <dd><a lay-href="/back/set/user/info">基本资料</a></dd>
+                  <dd><a lay-href="/back/set/user/password">修改密码</a></dd>
                 </dd>
               </dl>
             </li>
@@ -172,7 +172,7 @@
         </div>
         <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
           <ul class="layui-tab-title" id="LAY_app_tabsheader">
-            <li lay-id="/home/console" lay-attr="/home/console" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+            <li lay-id="/back/home/console" lay-attr="/back/home/console" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
           </ul>
         </div>
       </div>
@@ -181,7 +181,7 @@
       <!-- 主体内容 -->
       <div class="layui-body" id="LAY_app_body">
         <div class="layadmin-tabsbody-item layui-show">
-          <iframe src="/home/console" frameborder="0" class="layadmin-iframe"></iframe>
+          <iframe src="/back/home/console" frameborder="0" class="layadmin-iframe"></iframe>
         </div>
       </div>
       

@@ -87,6 +87,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
 
         //后台拦截器
+        filterChainDefinitionMap.put("/back/login","anon");
+        filterChainDefinitionMap.put("/back/anon","anon");
+        filterChainDefinitionMap.put("/back/reg","anon");
+        filterChainDefinitionMap.put("/back/forget","anon");
+        filterChainDefinitionMap.put("/back/**","authc");
 
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
 
