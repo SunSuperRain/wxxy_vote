@@ -43,10 +43,10 @@ public class UserRealm extends AuthorizingRealm {
         //创建令牌对象
         //获取controller层传递过来的用户信息
         UsernamePasswordToken userToken = (UsernamePasswordToken) authenticationToken;
-            if (userService.login(userToken.getUsername()) == null){
-                //会向controller层抛出用用户名不存在的异常
-                return null;
-            }
+        if (userService.login(userToken.getUsername()) == null){
+            //会向controller层抛出用用户名不存在的异常
+            return null;
+        }
         //密码认证  shiro自动完成
         SystemUser systemUser = userService.login(userToken.getUsername());
 
