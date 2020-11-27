@@ -45,9 +45,6 @@
             </div>
           </div>
         </div>
-<!--        <div class="layui-form-item" style="margin-bottom: 20px;">-->
-<!--          <a href="/back/forget" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>-->
-<!--        </div>-->
         <div class="layui-form-item">
           <button class="layui-btn layui-btn-fluid" type="button" lay-submit lay-filter="formDemo">登 入</button><!-- lay-filter="LAY-user-login-submit"-->
         </div>
@@ -91,7 +88,8 @@
             async: false,
             data: {
               'username': _form.username,
-              'password': _form.password
+              'password': _form.password,
+              'vercode': _form.vercode
             },
             success: function (res) {
               if (res.code == 100) {

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,7 +25,16 @@ public class BackLoginController {
 
     @ResponseBody
     @RequestMapping("/back/anon")
-    public Msg backLogin(String username, String password) throws Exception {
+    public Msg backLogin(String username, String password, String vercode, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        String sessionCode = (String)session.getAttribute(VerifyCodeController.SESSION_KEY);
+        if(null == sessionCode){
+            return Msg.fail().add("mc_msg","验证码超时!");
+        }
+        if(!sessionCode.equalsIgnoreCase(vercode)){
+            return Msg.fail().add("mc_msg","验证码错误!");
+        }
+        session.removeAttribute(VerifyCodeController.SESSION_KEY);
         //获取用户当前对象
         Subject subject = SecurityUtils.getSubject();
         //封装用户登录数据    获取到了Token令牌对象
