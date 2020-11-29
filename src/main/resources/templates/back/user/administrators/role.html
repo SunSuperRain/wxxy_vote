@@ -14,20 +14,20 @@
   <div class="layui-fluid">   
     <div class="layui-card">
       <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-        <div class="layui-form-item">
-          <div class="layui-inline">
-            角色筛选
-          </div>
-          <div class="layui-inline">
-            <select name="rolename" lay-filter="LAY-user-adminrole-type">
-              <option value="-1">全部角色</option>
-              <option value="0">学生</option>
-              <option value="1">教师</option>
-              <option value="2">领导</option>
-              <option value="3">督察组</option>
-            </select>
-          </div>
-        </div>
+<!--        <div class="layui-form-item">-->
+<!--          <div class="layui-inline">-->
+<!--            角色筛选-->
+<!--          </div>-->
+<!--          <div class="layui-inline">-->
+<!--            <select name="rolename" lay-filter="LAY-user-adminrole-type">-->
+<!--              <option value="-1">全部角色</option>-->
+<!--              <option value="0">学生</option>-->
+<!--              <option value="1">教师</option>-->
+<!--              <option value="2">领导</option>-->
+<!--              <option value="3">督察组</option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div class="layui-card-body">
         <div style="padding-bottom: 10px;">
@@ -61,7 +61,33 @@
     var $ = layui.$
     ,form = layui.form
     ,table = layui.table;
-    
+
+    table.render({
+      elem:'#LAY-user-back-role',
+      height: 350,
+      url: "/back/role",
+      page:true,
+      title:'角色表',
+      limit:6,
+      cols:[
+        [
+          {field: 'no',type: 'checkbox',fixed : 'left'}
+          ,{type: 'numbers',field:'no' , title: '序号', align : 'center', fixed: 'left'}
+          ,{field: 'roleName', title: '角色名',align : 'center'}
+          ,{field: 'permissionStr', title: '简介',align : 'center'}
+          ,{fixed: 'right', sort:true, title: '操作', align: 'center', toolbar: '#table-useradmin-admin', fixed : 'right'}
+        ]
+      ]
+      ,parseData: function (res) {
+        return {
+          "code": res.code,
+          "msg": res.msg,
+          "data": res.payload.content,
+          "count": res.payload.total
+        };
+      }
+    });
+
     //搜索角色
     form.on('select(LAY-user-adminrole-type)', function(data){
       //执行重载

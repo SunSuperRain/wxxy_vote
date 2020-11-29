@@ -14,6 +14,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface RoleMapper {
+
     List<Role> getAllRole();
 
     //获取用户权限

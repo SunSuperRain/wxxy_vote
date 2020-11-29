@@ -17,25 +17,25 @@
         <div class="layui-form-item">
           <div class="layui-inline">
             <label class="layui-form-label">登录名</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 150px;">
               <input type="text" name="loginname" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
           <div class="layui-inline">
             <label class="layui-form-label">手机</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 150px;">
               <input type="text" name="telphone" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
           <div class="layui-inline">
             <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 150px;">
               <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
           <div class="layui-inline">
             <label class="layui-form-label">角色</label>
-            <div class="layui-input-block">
+            <div class="layui-input-block" style="width: 150px;">
               <select name="role">
                 <option value="0">学生</option>
                 <option value="1">教师</option>
@@ -88,7 +88,33 @@
     var $ = layui.$
     ,form = layui.form
     ,table = layui.table;
-    
+
+    table.render({
+      elem:'#LAY-user-back-manage',
+      height: 350,
+      url: "/back/useradmin",
+      title:'管理员表',
+      limit:6,
+      cols:[
+        [
+          {field: 'no',type: 'checkbox',fixed : 'left'}
+          ,{type: 'numbers',field:'no' , title: '序号', align : 'center', fixed: 'left'}
+          ,{field: 'username', title: '用户名',align : 'center'}
+          ,{field: 'systemName', title: '姓名',align : 'center'}
+          ,{field: 'roleId', title: '角色号',align : 'center'}
+          ,{fixed: 'right', sort:true, title: '操作', align: 'center', toolbar: '#table-useradmin-admin', fixed : 'right'}
+        ]
+      ]
+      ,parseData: function (res) {
+        return {
+          "code": res.code,
+          "msg": res.msg,
+          "data": res.payload.content,
+          "count": res.payload.total
+        };
+      }
+    });
+
     //监听搜索
     form.on('submit(LAY-user-back-search)', function(data){
       var field = data.field;

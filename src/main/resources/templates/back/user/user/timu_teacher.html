@@ -20,17 +20,20 @@
           <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
         </div>
 
-        <table class="layui-table" lay-data="{height:315, url:'/demo/table/user/', page:true, id:'test'}" lay-filter="test">
-          <thead>
-            <tr>
-              <th lay-data="{field:'id', width:80, sort: true}">序号</th>
-              <th>题目</th>
-              <th>权重</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-        </table>
-        
+        <table id="demo" class="layui-table" lay-filter="test"></table>
+
+        <script type="text/html" id="toolBar">
+          {{# if(d.kind=='0' || d.kind==null){ }}
+          <div id="{{d.way_id}}" address="{{d.device_address}}" type="{{d.device_type}}" waystate="{{d.way_state}}" num="{{d.way_num}}" class="slider">
+            理论课
+          </div>
+          {{# } else{ }}
+          <div class="slider " lay-event="on" style="width: 60px">
+            实践课
+          </div>
+          {{# } }}
+        </script>
+
         <script type="text/html" id="imgTpl"> 
           <img style="display: inline-block; width: 50%; height: 100%;" src= {{ d.avatar }}>
         </script> 
@@ -52,7 +55,35 @@
     var $ = layui.$
     ,form = layui.form
     ,table = layui.table;
-    
+
+    table.render({
+      elem:'#demo',
+      height: 350,
+      url: "/back/reply_tea",
+      page:true,
+      title:'教师评教题目表',
+      limit:6,
+      cols:[
+        [
+          {field: 'no',type: 'checkbox',fixed : 'left'}
+          ,{type: 'numbers',field:'no' , title: '序号', align : 'center', fixed: 'left'}
+          ,{field: 'title', title: '标题',align : 'center'}
+          ,{field: 'content', title: '内容',align : 'center'}
+          ,{field: 'weight', title: '权重',align : 'center'}
+          ,{field: 'kind', title: '类型',align : 'center', toolbar: '#toolBar'}
+          ,{fixed: 'right', sort:true, title: '操作', align: 'center', toolbar: '#table-useradmin-webuser', fixed : 'right'}
+        ]
+      ]
+      ,parseData: function (res) {
+        return {
+          "code": res.code,
+          "msg": res.msg,
+          "data": res.payload.content,
+          "count": res.payload.total
+        };
+      }
+    });
+
     //监听搜索
     form.on('submit(LAY-user-front-search)', function(data){
       var field = data.field;

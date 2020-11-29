@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * @author Sun
@@ -43,4 +44,26 @@ public class UserServiceImpl implements UserService {
     public SystemUser check(String username, String password) {
         return userMapper.check(username,password);
     }
+
+    /**
+     * 获取所有的用户
+     * @return
+     */
+    @Override
+    public List<SystemUser> findAllUser() {
+        List<SystemUser> allUser = userMapper.findAllUser();
+        return allUser;
+    }
+
+    /**
+     * 通过角色ID，用户信息
+     * @param id
+     * @return
+     */
+    @Override
+    public List<SystemUser> findUserByRoleId(Integer id) {
+        List<SystemUser> userByRoleId = userMapper.findUserByRoleId(id);
+        return userByRoleId;
+    }
+
 }
