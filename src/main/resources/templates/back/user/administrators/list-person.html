@@ -40,7 +40,6 @@
                 <option value="0">学生</option>
                 <option value="1">教师</option>
                 <option value="2">领导</option>
-                <option value="3">督察组</option>
               </select>
             </div>
           </div>
@@ -58,21 +57,61 @@
           <button class="layui-btn layuiadmin-btn-admin" data-type="add">添加</button>
         </div>
         
-        <table id="LAY-user-back-manage" lay-filter="LAY-user-back-manage"></table>  
-        <script type="text/html" id="buttonTpl">
-          {{#  if(d.check == true){ }}
-            <button class="layui-btn layui-btn-xs">已审核</button>
+        <table  class="layui-hide" id="LAY-user-back-manage" lay-filter="back-manage"></table>
+        <script type="text/html" id="buttonCl">
+          {{#  if(d.classNo == null){ }}
+                无
           {{#  } else { }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+                {{ d.classNo }}
+          {{# } }}
+        </script>
+        <script type="text/html" id="buttonTpl">
+          {{#  if(d.roleId == 0){ }}
+                    学生
+          {{#  } else if(d.roleId == 1){ }}
+                    教师
+          {{#  } else if(d.roleId == 2){ }}
+                    院长
+          {{#  } else { }}
+                   督察组
+          {{#  } }}
+        </script>
+        <script type="text/html" id="buttonCo">
+          {{#  if(d.collegeNo == 1){ }}
+                材料与化工学院
+          {{#  } else if(d.collegeNo == 2){ }}
+                电气与光电学院
+          {{#  } else if(d.collegeNo == 3){ }}
+                电子与信息工程学院
+          {{#  } else if(d.collegeNo == 4){ }}
+                法学院
+          {{#  } else if(d.collegeNo == 5){ }}
+                环境与旅游学院
+          {{#  } else if(d.collegeNo == 6){ }}
+                机械与车辆工程学院
+          {{#  } else if(d.collegeNo == 7){ }}
+                建筑与土木工程学院
+          {{#  } else if(d.collegeNo == 8){ }}
+                金融与数学学院
+          {{#  } else if(d.collegeNo == 9){ }}
+                经济与管理学院
+          {{#  } else if(d.collegeNo == 10){ }}
+                生物与制药工程学院
+          {{#  } else if(d.collegeNo == 11){ }}
+                体育学院
+          {{#  } else if(d.collegeNo == 12){ }}
+                外国语学院
+          {{#  } else if(d.collegeNo == 13){ }}
+                文化与传媒学院
+          {{#  } else if(d.collegeNo == 14){ }}
+                艺术学院
+          {{#  } else { }}
+                马克思主义学院
           {{#  } }}
         </script>
         <script type="text/html" id="table-useradmin-admin">
           <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-          {{#  if(d.role == '超级管理员'){ }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="layui-icon layui-icon-delete"></i>删除</a>
-          {{#  } else { }}
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
-          {{#  } }}
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
         </script>
       </div>
     </div>
@@ -94,6 +133,7 @@
       height: 350,
       url: "/back/systemuser",
       title:'学生评教题目表',
+      page: true,
       limit:6,
       cols:[
         [
@@ -101,9 +141,9 @@
           ,{type: 'numbers',field:'no' , title: '序号', align : 'center', fixed: 'left'}
           ,{field: 'username', title: '用户名',align : 'center'}
           ,{field: 'systemName', title: '姓名',align : 'center'}
-          ,{field: 'classNo', title: '班级',align : 'center'}
-          ,{field: 'collegeNo', title: '院号',align : 'center'}
-          ,{field: 'roleId', title: '角色号',align : 'center'}
+          ,{field: 'classNo', title: '班级',align : 'center', toolbar: '#buttonCl'}
+          ,{field: 'collegeNo', title: '学院',align : 'center', toolbar: '#buttonCo'}
+          ,{field: 'roleId', title: '角色号',align : 'center', toolbar: '#buttonTpl'}
           ,{fixed: 'right', sort:true, title: '操作', align: 'center', toolbar: '#table-useradmin-admin', fixed : 'right'}
         ]
       ]
@@ -116,15 +156,18 @@
         };
       }
     });
-    
-    //监听搜索
-    form.on('submit(LAY-user-back-search)', function(data){
-      var field = data.field;
-      
-      //执行重载
-      table.reload('LAY-user-back-manage', {
-        where: field
-      });
+
+    //监听事件
+    table.on('toolbar(back-manage)', function(obj){
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch(obj.event){
+            case 'del':
+                layer.msg('删除');
+                break;
+            case 'edit':
+                layer.msg('编辑');
+                break;
+        };
     });
   
     //事件
@@ -136,15 +179,15 @@
         if(checkData.length === 0){
           return layer.msg('请选择数据');
         }
-        
+
         layer.prompt({
           formType: 1
           ,title: '敏感操作，请验证口令'
         }, function(value, index){
           layer.close(index);
-          
+
           layer.confirm('确定删除吗？', function(index) {
-            
+
             //执行 Ajax 后重载
             /*
             admin.req({
@@ -155,13 +198,13 @@
             table.reload('LAY-user-back-manage');
             layer.msg('已删除');
           });
-        }); 
+        });
       }
       ,add: function(){
         layer.open({
           type: 2
-          ,title: '添加管理员'
-          ,content: 'adminform.html'
+          ,title: '添加人员'
+          ,content: '/back/adminform'
           ,area: ['420px', '420px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){
@@ -172,18 +215,20 @@
             //监听提交
             iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
               var field = data.field; //获取提交的字段
-              
+
               //提交 Ajax 成功后，静态更新表格中的数据
               //$.ajax({});
               table.reload('LAY-user-front-submit'); //数据刷新
               layer.close(index); //关闭弹层
-            });  
-            
+            });
+
             submit.trigger('click');
           }
-        }); 
+        });
+      },edit: function(){
+          alert("--------");
       }
-    }  
+    }
     $('.layui-btn.layuiadmin-btn-admin').on('click', function(){
       var type = $(this).data('type');
       active[type] ? active[type].call(this) : '';

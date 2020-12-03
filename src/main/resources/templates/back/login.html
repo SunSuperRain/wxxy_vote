@@ -108,7 +108,7 @@
 
           if (ajaxCode == 100) {
             layer.msg("登陆成功，正在跳转...", {icon: 1, time: 1000}, function () {
-              window.location.href = '/back/index';
+              window.location.href = '/back/index/' + $("#LAY-user-login-username").val();
             })
           }
           return false;

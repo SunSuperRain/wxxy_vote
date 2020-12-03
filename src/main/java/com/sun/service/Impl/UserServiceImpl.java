@@ -66,4 +66,10 @@ public class UserServiceImpl implements UserService {
         return userByRoleId;
     }
 
+    @Override
+    public List<SystemUser> findUserOnAdmin() {
+        List<SystemUser> userOnAdmin = userMapper.findUserOnAdmin();
+        return userOnAdmin;
+    }
+
 }

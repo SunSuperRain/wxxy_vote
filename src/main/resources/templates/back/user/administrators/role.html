@@ -74,7 +74,7 @@
           {field: 'no',type: 'checkbox',fixed : 'left'}
           ,{type: 'numbers',field:'no' , title: '序号', align : 'center', fixed: 'left'}
           ,{field: 'roleName', title: '角色名',align : 'center'}
-          ,{field: 'permissionStr', title: '简介',align : 'center'}
+          ,{field: 'permissionStr', title: '权限',align : 'center'}
           ,{fixed: 'right', sort:true, title: '操作', align: 'center', toolbar: '#table-useradmin-admin', fixed : 'right'}
         ]
       ]
@@ -125,7 +125,7 @@
         layer.open({
           type: 2
           ,title: '添加新角色'
-          ,content: 'roleform.html'
+          ,content: '/back/roleform'
           ,area: ['500px', '480px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){

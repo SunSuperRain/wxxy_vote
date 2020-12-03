@@ -23,4 +23,7 @@ public interface UserService {
 
     //根据角色来获取用户信息
     List<SystemUser> findUserByRoleId(Integer id);
+
+    //获取除了督察组的所有用户
+    List<SystemUser> findUserOnAdmin();
 }

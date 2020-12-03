@@ -65,7 +65,7 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite>贤心</cite>
+              <cite>[[${user.getUsername()}]]</cite>
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="/back/set/user/info">基本资料</a></dd>
@@ -139,7 +139,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd class="layui-nav-itemed">
-                  <dd><a lay-href="/back/set/user/info">基本资料</a></dd>
+                  <dd><a th:lay-href="@{/back/set/user/info/} + ${user.getUsername()}">基本资料</a></dd>
                   <dd><a lay-href="/back/set/user/password">修改密码</a></dd>
                 </dd>
               </dl>

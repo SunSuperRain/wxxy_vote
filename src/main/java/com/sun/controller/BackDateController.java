@@ -113,7 +113,7 @@ public class BackDateController {
     public RestResponse<HashMap> userDates(Integer page, Integer limit){
 
         //获取所有用户对象
-        List<SystemUser> allUser = userService.findAllUser();
+        List<SystemUser> allUser = userService.findUserOnAdmin();
 
         //把list对象，转换为json数据
         if(allUser.size() != 0){
@@ -163,5 +163,9 @@ public class BackDateController {
         //转换失败
         return RestResponse.fail(200,"数据等待异常!");
     }
+
+    //学生题目管理
+//    @RequestMapping("/back/timu_str/edit")
+//    public String
 
 }

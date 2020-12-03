@@ -58,12 +58,16 @@
           <button class="layui-btn layuiadmin-btn-admin" data-type="add">添加</button>
         </div>
         
-        <table id="LAY-user-back-manage" lay-filter="LAY-user-back-manage"></table>  
+        <table id="LAY-user-back-manage" lay-filter="LAY-user-back-manage"></table>
         <script type="text/html" id="buttonTpl">
-          {{#  if(d.check == true){ }}
-            <button class="layui-btn layui-btn-xs">已审核</button>
+          {{#  if(d.roleId == 0){ }}
+                学生
+          {{#  } else if(d.roleId == 1){ }}
+                教师
+          {{#  } else if(d.roleId == 2){ }}
+                院长
           {{#  } else { }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+                督察组
           {{#  } }}
         </script>
         <script type="text/html" id="table-useradmin-admin">
@@ -94,6 +98,7 @@
       height: 350,
       url: "/back/useradmin",
       title:'管理员表',
+      page: true,
       limit:6,
       cols:[
         [
@@ -101,7 +106,7 @@
           ,{type: 'numbers',field:'no' , title: '序号', align : 'center', fixed: 'left'}
           ,{field: 'username', title: '用户名',align : 'center'}
           ,{field: 'systemName', title: '姓名',align : 'center'}
-          ,{field: 'roleId', title: '角色号',align : 'center'}
+          ,{field: 'roleId', title: '角色名',align : 'center', toolbar: '#buttonTpl'}
           ,{fixed: 'right', sort:true, title: '操作', align: 'center', toolbar: '#table-useradmin-admin', fixed : 'right'}
         ]
       ]
@@ -159,7 +164,7 @@
         layer.open({
           type: 2
           ,title: '添加管理员'
-          ,content: 'adminform.html'
+          ,content: '/back/admin'
           ,area: ['420px', '420px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){

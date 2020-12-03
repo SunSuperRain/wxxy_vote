@@ -11,6 +11,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +26,7 @@ public class BackLoginController {
 
     @ResponseBody
     @RequestMapping("/back/anon")
-    public Msg backLogin(String username, String password, String vercode, HttpServletRequest request) throws Exception {
+    public Msg backLogin(String username, String password, String vercode, HttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession();
         String sessionCode = (String)session.getAttribute(VerifyCodeController.SESSION_KEY);
         if(null == sessionCode){
@@ -42,6 +43,7 @@ public class BackLoginController {
         try {
             subject.login(token);
             SystemUser user = (SystemUser) SecurityUtils.getSubject().getPrincipal();
+            model.addAttribute("user",user);
             //判断用户权限信息
             if (user.getRoleId() == 2 || user.getRoleId() == 3){
                     return Msg.success();
