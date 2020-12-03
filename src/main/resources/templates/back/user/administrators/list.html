@@ -58,7 +58,7 @@
           <button class="layui-btn layuiadmin-btn-admin" data-type="add">添加</button>
         </div>
         
-        <table id="LAY-user-back-manage" lay-filter="LAY-user-back-manage"></table>
+        <table id="LAY-user-back-manage" lay-filter="back-manage"></table>
         <script type="text/html" id="buttonTpl">
           {{#  if(d.roleId == 0){ }}
                 学生
@@ -120,16 +120,44 @@
       }
     });
 
-    //监听搜索
-    form.on('submit(LAY-user-back-search)', function(data){
-      var field = data.field;
-      
-      //执行重载
-      table.reload('LAY-user-back-manage', {
-        where: field
-      });
+    //监听头工具栏事件
+    table.on('tool(back-manage)', function(obj){
+      //获得当前行数据,获得 lay-event 对应的值
+      var data = obj.data,layEvent = obj.event;
+      if(layEvent === 'del'){
+        layer.confirm('真的删除行么', function(index){
+          obj.del(); //删除对应行（tr）的DOM结构
+          layer.close(index);
+          //向服务端发送删除指令
+        });
+      } else if(layEvent === 'edit'){
+        layer.open({
+          type: 2
+          ,title: '编辑人员'
+          ,content: '/back/adminEd'
+          ,area: ['420px', '420px']
+          ,btn: ['确定', '取消']
+          ,yes: function(index, layero){
+            var iframeWindow = window['layui-layer-iframe'+ index]
+                    ,submitID = 'LAY-user-back-submit'
+                    ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
+            //监听提交
+            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+              var field = data.field; //获取提交的字段
+
+              //提交 Ajax 成功后，静态更新表格中的数据
+              //$.ajax({});
+              table.reload('LAY-user-front-submit'); //数据刷新
+              layer.close(index); //关闭弹层
+            });
+
+            submit.trigger('click');
+          }
+        });
+      }
     });
-  
+
     //事件
     var active = {
       batchdel: function(){
