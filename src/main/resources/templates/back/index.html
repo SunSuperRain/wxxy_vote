@@ -68,10 +68,10 @@
               <cite>[[${user.getUsername()}]]</cite>
             </a>
             <dl class="layui-nav-child">
-              <dd><a lay-href="/back/set/user/info">基本资料</a></dd>
-              <dd><a lay-href="/back/set/user/password">修改密码</a></dd>
+              <dd><a th:lay-href="@{/back/set/user/info/} + ${user.getUsername()}">基本资料</a></dd>
+              <dd><a th:lay-href="@{/back/set/user/password/} + ${user.getUsername()}">修改密码</a></dd>
               <hr>
-              <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+              <dd  style="text-align: center;"><a th:href="@{/back/loginOut}">退出</a></dd><!-- -->
             </dl>
           </li>
           
@@ -140,7 +140,7 @@
               <dl class="layui-nav-child">
                 <dd class="layui-nav-itemed">
                   <dd><a th:lay-href="@{/back/set/user/info/} + ${user.getUsername()}">基本资料</a></dd>
-                  <dd><a lay-href="/back/set/user/password">修改密码</a></dd>
+                  <dd><a th:lay-href="@{/back/set/user/password/} + ${user.getUsername()}">修改密码</a></dd>
                 </dd>
               </dl>
             </li>

@@ -7,12 +7,16 @@ import com.sun.entity.SystemUser;
 import com.sun.service.ReplyService;
 import com.sun.service.RoleService;
 import com.sun.service.UserService;
+import com.sun.utils.MD5;
 import com.sun.utils.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -165,7 +169,22 @@ public class BackDateController {
     }
 
     //学生题目管理
-//    @RequestMapping("/back/timu_str/edit")
-//    public String
+    @RequestMapping("/back/user/changePwd")
+    @ResponseBody
+    public RestResponse changePwd(String username,String oldPassword,String repassword) {
+        SystemUser login = userService.login(username);
+        try {
+            String password = MD5.EncoderByMd5(oldPassword);
+            if(!login.getPassword().equals(password)) {
+                return RestResponse.fail(200,"当前密码错误，请重新输入!");
+            } else {
+                Integer integer = userService.updatePassword(username, repassword);
+                return RestResponse.ok();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RestResponse.fail(200,"修改密码错误!");
+    }
 
 }
