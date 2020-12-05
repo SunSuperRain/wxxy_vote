@@ -122,6 +122,7 @@
       }
     });
 
+
   
     //事件
     var active = {
@@ -162,20 +163,46 @@
           ,area: ['450px', '430px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){
+
             var iframeWindow = window['layui-layer-iframe'+ index]
             ,submitID = 'LAY-user-front-submit'
             ,submit = layero.find('iframe').contents().find('#'+ submitID);
 
+
             //监听提交
             iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
               var field = data.field; //获取提交的字段
-              
+
               //提交 Ajax 成功后，静态更新表格中的数据
               //$.ajax({});
+              $('#submit').click(function () {
+                $.ajax({
+                  url: '/back/addtext',
+                  type: 'POST',
+                  data: $('#form').serialize(),
+                  success: function (res) {
+                    if (res.code == 100) {
+                      console.log("successs : res ->", res);
+                      ajaxCode = 100;
+                    } else if (res.code == 200) {
+                      console.log("error : res ->", res);
+                      if (res.extend.mc_msg != null) {
+                        layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                      } else {
+                        ajaxCode = 200;
+                      }
+                    }
+                  },
+                  error: function () {
+                    layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+                  }
+                })
+              })
+
               table.reload('LAY-user-front-submit'); //数据刷新
               layer.close(index); //关闭弹层
-            });  
-            
+            });
+
             submit.trigger('click');
           }
         }); 

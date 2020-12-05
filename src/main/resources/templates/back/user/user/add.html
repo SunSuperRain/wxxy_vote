@@ -19,7 +19,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">内容</label>
       <div class="layui-input-inline">
-        <textarea placeholder="请输入内容" class="layui-textarea" name="desc"></textarea>
+        <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
       </div>
     </div>
     <div class="layui-form-item">
@@ -28,7 +28,7 @@
         <input type="text" name="weight" lay-verify="weight" placeholder="请输入权重" autocomplete="off" class="layui-input">
       </div>
     </div>
-    <div class="layui-inline">
+    <div class="layui-inline layui-form-item">
       <label class="layui-form-label">类型</label>
       <div class="layui-input-block" style="width: 150px;">
         <select name="role">
@@ -44,26 +44,26 @@
 
   <script th:src="@{/layuiadmin/layui/layui.js}"></script>
   <script>
-  layui.config({
-    base: '/layuiadmin/' //静态资源所在路径
-  }).extend({
-    index: 'lib/index' //主入口模块
-  }).use(['index', 'form', 'upload'], function(){
-    var $ = layui.$
-    ,form = layui.form
-    ,upload = layui.upload ;
-    
-    upload.render({
-      elem: '#layuiadmin-upload-useradmin'
-      ,url: layui.setter.base + 'json/upload/demo.js'
-      ,accept: 'images'
-      ,method: 'get'
-      ,acceptMime: 'image/*'
-      ,done: function(res){
-        $(this.item).prev("div").children("input").val(res.data.src)
-      }
-    });
-  })
+    layui.config({
+      base: '/layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'upload'], function(){
+      var $ = layui.$
+              ,form = layui.form
+              ,upload = layui.upload ;
+
+      upload.render({
+        elem: '#layuiadmin-upload-useradmin'
+        ,url: layui.setter.base + 'json/upload/demo.js'
+        ,accept: 'images'
+        ,method: 'get'
+        ,acceptMime: 'image/*'
+        ,done: function(res){
+          $(this.item).prev("div").children("input").val(res.data.src)
+        }
+      });
+    })
   </script>
 </body>
 </html>

@@ -187,4 +187,15 @@ public class BackDateController {
         return RestResponse.fail(200,"修改密码错误!");
     }
 
+    //学生题目管理
+    @RequestMapping("/back/addtext")
+    @ResponseBody
+    public RestResponse addtext(String title,String desc,String weight,Integer role) {
+        System.out.println(title);
+        System.out.println(desc);
+        System.out.println(weight);
+        System.out.println(role);
+        return RestResponse.fail(200,"修改密码错误!");
+    }
+
 }
