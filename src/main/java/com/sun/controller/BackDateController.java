@@ -98,7 +98,7 @@ public class BackDateController {
     public RestResponse<HashMap> replyCenDates(Integer page, Integer limit){
 
         //获取评教题目的对象
-        List<Reply> reply = replyService.getReply(2);
+        List<Reply> reply = replyService.getReply(3);
 
         //把list对象，转换为json数据
         if(reply.size() != 0){
@@ -187,15 +187,68 @@ public class BackDateController {
         return RestResponse.fail(200,"修改密码错误!");
     }
 
-    //学生题目管理
-    @RequestMapping("/back/addtext")
+    //----->学生题目管理<-----
+    //1.增加
+    @RequestMapping("/back/addReply")
     @ResponseBody
-    public RestResponse addtext(String title,String desc,String weight,Integer role) {
-        System.out.println(title);
-        System.out.println(desc);
-        System.out.println(weight);
-        System.out.println(role);
-        return RestResponse.fail(200,"修改密码错误!");
+    public RestResponse addReply(Reply reply) {
+        //调用Service方法实现插入数据
+        Integer integer = replyService.insertReply(reply);
+        //判断是否插入成功
+        if(integer != 0 ){
+            //插入成功
+            return RestResponse.ok();
+        }else{
+            //插入失败
+            return RestResponse.fail(200,"增加题目失败!");
+        }
+    }
+
+    //2.修改
+    @RequestMapping("/back/editReply")
+    @ResponseBody
+    public RestResponse editReply(Reply reply) {
+        //调用Service方法修改插入数据
+        Integer integer = replyService.updateReply(reply);
+        //判断是否修改成功
+        if(integer != 0 ){
+            //修改成功
+            return RestResponse.ok();
+        }else{
+            //修改失败
+            return RestResponse.fail(200,"修改题目失败!");
+        }
+    }
+
+    //3.删除
+    @RequestMapping("/back/delReply")
+    @ResponseBody
+    public RestResponse delReply(Integer replyId) {
+        //调用Service方法删除插入数据
+        Integer integer = replyService.delReply(replyId);
+        //判断是否删除成功
+        if(integer != 0 ){
+            //删除成功
+            return RestResponse.ok();
+        }else{
+            //删除失败
+            return RestResponse.fail(200,"删除题目失败!");
+        }
+    }
+
+    //批量删除
+    @RequestMapping("/back/delAll")
+    @ResponseBody
+    public RestResponse delAllReply(String data) {
+        String[] split = data.split(",");
+        Integer integer = replyService.delAllReply(split);
+        if(integer != 0 ){
+            //删除成功
+            return RestResponse.ok();
+        }else{
+            //删除失败
+            return RestResponse.fail(200,"批量删除题目失败!");
+        }
     }
 
 }

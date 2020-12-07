@@ -61,19 +61,24 @@
       height: 350,
       url: "/back/reply_cen",
       page:true,
+      id: "allTable",
       title:'督查评教题目表',
-      limit:6,
+      limit:7,
       cols:[
         [
           {field: 'no',type: 'checkbox',fixed : 'left'}
           ,{type: 'numbers',field:'no' , title: '序号', align : 'center', fixed: 'left'}
+          ,{field: 'replyId', title: '题号',display: 'none',align : 'center',hide:true}
           ,{field: 'title', title: '标题',align : 'center'}
           ,{field: 'content', title: '内容',align : 'center'}
           ,{field: 'weight', title: '权重',align : 'center'}
           ,{field: 'kind', title: '类型',align : 'center', toolbar: '#toolBar'}
           ,{fixed: 'right', sort:true, title: '操作', align: 'center', toolbar: '#table-useradmin-webuser', fixed : 'right'}
         ]
-      ]
+      ],
+      done:function(res,curr,count){ // 隐藏列
+        $(".layui-table").find("[data-field='replyId']").css("display","none");
+      }
       ,parseData: function (res) {
         return {
           "code": res.code,
@@ -103,17 +108,41 @@
           obj.del(); //删除对应行（tr）的DOM结构
           layer.close(index);
           //向服务端发送删除指令
+          $.ajax({
+            url: '/back/delReply',
+            type: 'POST',
+            data: {
+              "replyId" : data.replyId
+            },
+            success: function (res) {
+              if (res.code == 100) {
+                console.log("successs : res ->", res);
+                ajaxCode = 100;
+              } else if (res.code == 200) {
+                console.log("error : res ->", res);
+                if (res.extend.mc_msg != null) {
+                  layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                } else {
+                  ajaxCode = 200;
+                }
+              }
+            },
+            error: function () {
+              layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+            }
+          })
+
         });
       } else if(layEvent === 'edit'){
         layer.open({
           type: 2
           ,title: '编辑题目'
-          ,content: '/back/updateEd'
-          ,area: ['450px', '430px']
-          ,btn: ['确定', '取消']
+          ,content: '/back/updateEdZ/' + data.replyId
+          ,area: ['470px', '450px']
+          ,btn: ['修改', '取消']
           ,yes: function(index, layero){
             var iframeWindow = window['layui-layer-iframe'+ index]
-                    ,submitID = 'LAY-user-back-submit'
+                    ,submitID = 'LAY-user-front-submit'
                     ,submit = layero.find('iframe').contents().find('#'+ submitID);
 
             //监听提交
@@ -122,7 +151,36 @@
 
               //提交 Ajax 成功后，静态更新表格中的数据
               //$.ajax({});
-              table.reload('LAY-user-front-submit'); //数据刷新
+              $.ajax({
+                url: '/back/editReply',
+                type: 'POST',
+                data: {
+                  "replyId" : field.replyId,
+                  "title" : field.title,
+                  "content" : field.desc,
+                  "weight" : field.weight,
+                  "roleId" : field.roleId
+                },
+                success: function (res) {
+                  if (res.code == 100) {
+                    console.log("successs : res ->", res);
+                    ajaxCode = 100;
+                  } else if (res.code == 200) {
+                    console.log("error : res ->", res);
+                    if (res.extend.mc_msg != null) {
+                      layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                    } else {
+                      ajaxCode = 200;
+                    }
+                  }
+                },
+                error: function () {
+                  layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+                }
+              })
+
+              table.reload('allTable'); //数据刷新
+              table.reload('allTable'); //数据刷新
               layer.close(index); //关闭弹层
             });
 
@@ -135,40 +193,60 @@
     //事件
     var active = {
       batchdel: function(){
-        var checkStatus = table.checkStatus('LAY-user-manage')
+        var checkStatus = table.checkStatus('allTable')
         ,checkData = checkStatus.data; //得到选中的数据
 
         if(checkData.length === 0){
           return layer.msg('请选择数据');
         }
-        
-        layer.prompt({
-          formType: 1
-          ,title: '敏感操作，请验证口令'
-        }, function(value, index){
-          layer.close(index);
-          
-          layer.confirm('确定删除吗？', function(index) {
-            
-            //执行 Ajax 后重载
-            /*
-            admin.req({
-              url: 'xxx'
-              //,……
-            });
-            */
-            table.reload('LAY-user-manage');
-            layer.msg('已删除');
-          });
+
+        layer.confirm('确定删除吗？', function(index) {
+          //执行 Ajax 后重载
+          var str = "";
+          for (var i = 0; i < checkData.length; i++) {
+            if(i + 1 == checkData.length){
+              str += checkData[i].replyId;
+            }else{
+              str += checkData[i].replyId + ",";
+            }
+          }
+
+          $.ajax({
+            url: '/back/delAll',
+            type: 'POST',
+            data: {
+              "data" : str
+            },
+            success: function (res) {
+              if (res.code == 100) {
+                console.log("successs : res ->", res);
+                ajaxCode = 100;
+              } else if (res.code == 200) {
+                console.log("error : res ->", res);
+                if (res.extend.mc_msg != null) {
+                  layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                } else {
+                  ajaxCode = 200;
+                }
+              }
+            },
+            error: function () {
+              layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+            }
+          })
+
+          table.reload('allTable');
+          table.reload('allTable');
+          layer.msg('已删除');
         });
       }
       ,add: function(){
         layer.open({
           type: 2
           ,title: '添加题目'
-          ,content: '/back/add'
+          ,content: '/back/addZ/' + 3
           ,maxmin: true
-          ,area: ['450px', '430px']
+          ,area: ['470px', '450px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){
 
@@ -183,8 +261,36 @@
 
               //提交 Ajax 成功后，静态更新表格中的数据
               //$.ajax({});
+              $.ajax({
+                url: '/back/addReply',
+                type: 'POST',
+                data: {
+                  "title" : field.title,
+                  "content" : field.desc,
+                  "weight" : field.weight,
+                  "roleId" : field.roleId,
+                  "kind" : field.kind
+                },
+                success: function (res) {
+                  if (res.code == 100) {
+                    console.log("successs : res ->", res);
+                    ajaxCode = 100;
+                  } else if (res.code == 200) {
+                    console.log("error : res ->", res);
+                    if (res.extend.mc_msg != null) {
+                      layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                    } else {
+                      ajaxCode = 200;
+                    }
+                  }
+                },
+                error: function () {
+                  layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+                }
+              })
 
-              table.reload('LAY-user-front-submit'); //数据刷新
+              table.reload('allTable'); //数据刷新
+              table.reload('allTable'); //数据刷新
               layer.close(index); //关闭弹层
             });
 

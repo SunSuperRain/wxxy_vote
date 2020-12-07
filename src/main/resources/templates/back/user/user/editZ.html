@@ -33,16 +33,7 @@
       <label class="layui-form-label">角色</label>
       <div class="layui-input-block" style="width: 150px;">
         <select name="roleId">
-          <option value="0" selected>学生</option>
-        </select>
-      </div>
-    </div>
-    <div class="layui-inline layui-form-item">
-      <label class="layui-form-label">类型</label>
-      <div class="layui-input-block" style="width: 150px;">
-        <select name="kind" lay-verify="selectd">
-          <option value="0">理论课</option>
-          <option value="1">实际课</option>
+          <option th:value="${reply.getRoleId()}" th:text="${roleName}"></option>
         </select>
       </div>
     </div>
@@ -62,9 +53,9 @@
     ,form = layui.form
     ,upload = layui.upload ;
 
-    form.val("layuiadmin-form-useradmin",{
-      "kind" : [[ ${reply.getKind()} ]]
-    });
+    // form.val("layuiadmin-form-useradmin",{
+    //   "roleId" : [[ ${reply.getRoleId()} ]]
+    // });
 
     upload.render({
       elem: '#layuiadmin-upload-useradmin'

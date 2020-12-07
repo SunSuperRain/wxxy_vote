@@ -14,6 +14,22 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ReplyMapper {
+
     //根据用户角色ID获取评教内容
     List<Reply> getReply(Integer roleId);
+
+    //插入评教题目
+    Integer insertReply(Reply reply);
+
+    //修改评教题目
+    Integer updateReply(Reply reply);
+
+    //通过replyId获取题目内容
+    Reply getReplyById(Integer replyId);
+
+    //通过replyId删除题目
+    Integer delReply(Integer replyId);
+
+    //批量删除题目
+    Integer batchDelete(String[] replyIds);
 }

@@ -23,4 +23,34 @@ public class ReplyServiceImpl implements ReplyService {
     public List<Reply> getReply(Integer roleId) {
         return replyMapper.getReply(roleId);
     }
+
+    @Override
+    public Integer insertReply(Reply reply) {
+        Integer integer = replyMapper.insertReply(reply);
+        return integer;
+    }
+
+    @Override
+    public Integer updateReply(Reply reply) {
+        Integer integer = replyMapper.updateReply(reply);
+        return integer;
+    }
+
+    @Override
+    public Reply getReplyById(Integer replyId) {
+        Reply replyById = replyMapper.getReplyById(replyId);
+        return replyById;
+    }
+
+    @Override
+    public Integer delReply(Integer replyId) {
+        Integer integer = replyMapper.delReply(replyId);
+        return integer;
+    }
+
+    @Override
+    public Integer delAllReply(String[] replyIds) {
+        Integer integer = replyMapper.batchDelete(replyIds);
+        return integer;
+    }
 }

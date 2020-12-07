@@ -9,4 +9,30 @@
         select * from reply where roleId = #{roleId};
     </select>
 
+    <select id="getReplyById" resultType="Reply">
+        select * from reply where replyId = #{replyId};
+    </select>
+
+    <insert id="insertReply" parameterType="com.sun.entity.Reply">
+        insert into reply(title,roleId,weight,kind,content)
+        value (#{title},#{roleId},#{weight},#{kind},#{content});
+    </insert>
+
+    <update id="updateReply" parameterType="com.sun.entity.Reply">
+        update reply set title=#{title},content=#{content},
+        weight=#{weight},roleId=#{roleId},kind=#{kind} where replyId = #{replyId};
+    </update>
+
+    <delete id="delReply" parameterType="Integer">
+        delete from reply where replyId = #{replyId};
+    </delete>
+
+    <delete id="batchDelete" parameterType="Integer">
+        delete from reply where replyId in
+        <foreach collection="replyIds" item="replyId" open="(" separator="," close=")">
+            #{replyId}
+        </foreach>
+        ;
+    </delete>
+
 </mapper>
