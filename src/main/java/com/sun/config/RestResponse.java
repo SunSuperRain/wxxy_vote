@@ -11,6 +11,7 @@ import java.time.Instant;
  */
 @Data
 public class RestResponse<T> {
+
     private T payload;
 
     private boolean success;

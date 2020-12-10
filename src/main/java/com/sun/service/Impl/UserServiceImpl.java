@@ -66,10 +66,58 @@ public class UserServiceImpl implements UserService {
         return userByRoleId;
     }
 
+    /**
+     * 获取所有督察组的用户
+     * @return
+     */
     @Override
     public List<SystemUser> findUserOnAdmin() {
         List<SystemUser> userOnAdmin = userMapper.findUserOnAdmin();
         return userOnAdmin;
+    }
+
+    /**
+     * 传入一个用户的实体类，来插入到数据库中
+     * @param user
+     * @return
+     */
+    @Override
+    public Integer insertUserService(SystemUser user) {
+        Integer integer = userMapper.insertUser(user);
+        return integer;
+    }
+
+    /**
+     * 使用用户名来删除用户信息
+     * @param username
+     * @return
+     */
+    @Override
+    public Integer delUserService(String username) {
+        Integer integer = userMapper.delUser(username);
+        return integer;
+    }
+
+    /**
+     * 使用用户名批量删除数据
+     * @param split
+     * @return
+     */
+    @Override
+    public Integer batchDeleteUser(String[] split) {
+        Integer integer = userMapper.batchDeleteUser(split);
+        return integer;
+    }
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    @Override
+    public Integer updateServiceUser(SystemUser user) {
+        Integer integer = userMapper.updateUser(user);
+        return integer;
     }
 
 }

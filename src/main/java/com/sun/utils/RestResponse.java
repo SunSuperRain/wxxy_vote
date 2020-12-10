@@ -80,6 +80,10 @@ public class RestResponse<T> {
         return (new RestResponse()).success(true).payload(payload).code(code);
     }
 
+    public static <T> RestResponse ok(int code, String message) {
+        return (new RestResponse()).success(false).message(message).code(code);
+    }
+
     public static <T> RestResponse<T> fail() {
         return (new RestResponse()).success(false);
     }

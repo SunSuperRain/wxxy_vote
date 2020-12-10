@@ -10,6 +10,7 @@ import com.sun.service.UserService;
 import com.sun.utils.MD5;
 import com.sun.utils.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -117,7 +118,27 @@ public class BackDateController {
     public RestResponse<HashMap> userDates(Integer page, Integer limit){
 
         //获取所有用户对象
+        List<SystemUser> allUser = userService.findAllUser();
+
+        //把list对象，转换为json数据
+        if(allUser.size() != 0){
+            //变成一个hashMap
+            HashMap hashMap = PageUtil.PageByList(allUser, page, limit, allUser.size());
+            //转换为json数据
+            return RestResponse.ok(hashMap);
+        }
+        //转换失败
+        return RestResponse.fail(200,"数据等待异常!");
+    }
+
+    //所有用户信息
+    @RequestMapping("/back/systemuser2")
+    @ResponseBody
+    public RestResponse<HashMap> userDates1(Integer page, Integer limit,@Nullable SystemUser user){
+
+        //获取所有用户对象
         List<SystemUser> allUser = userService.findUserOnAdmin();
+//        userService.
 
         //把list对象，转换为json数据
         if(allUser.size() != 0){
@@ -168,7 +189,7 @@ public class BackDateController {
         return RestResponse.fail(200,"数据等待异常!");
     }
 
-    //学生题目管理
+    //修改密码
     @RequestMapping("/back/user/changePwd")
     @ResponseBody
     public RestResponse changePwd(String username,String oldPassword,String repassword) {
@@ -179,7 +200,7 @@ public class BackDateController {
                 return RestResponse.fail(200,"当前密码错误，请重新输入!");
             } else {
                 Integer integer = userService.updatePassword(username, repassword);
-                return RestResponse.ok();
+                return RestResponse.ok(100,"修改成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,7 +218,7 @@ public class BackDateController {
         //判断是否插入成功
         if(integer != 0 ){
             //插入成功
-            return RestResponse.ok();
+            return RestResponse.ok(100,"添加成功");
         }else{
             //插入失败
             return RestResponse.fail(200,"增加题目失败!");
@@ -213,7 +234,7 @@ public class BackDateController {
         //判断是否修改成功
         if(integer != 0 ){
             //修改成功
-            return RestResponse.ok();
+            return RestResponse.ok(100,"修改成功");
         }else{
             //修改失败
             return RestResponse.fail(200,"修改题目失败!");
@@ -229,14 +250,14 @@ public class BackDateController {
         //判断是否删除成功
         if(integer != 0 ){
             //删除成功
-            return RestResponse.ok();
+            return RestResponse.ok(100,"删除成功");
         }else{
             //删除失败
             return RestResponse.fail(200,"删除题目失败!");
         }
     }
 
-    //批量删除
+    //4.批量删除
     @RequestMapping("/back/delAll")
     @ResponseBody
     public RestResponse delAllReply(String data) {
@@ -244,11 +265,76 @@ public class BackDateController {
         Integer integer = replyService.delAllReply(split);
         if(integer != 0 ){
             //删除成功
-            return RestResponse.ok();
+            return RestResponse.ok(100,"删除成功");
         }else{
             //删除失败
             return RestResponse.fail(200,"批量删除题目失败!");
         }
     }
 
+    //----->人员管理<-----
+    @RequestMapping("/back/addSystemUser")
+    @ResponseBody
+    public RestResponse addUser(SystemUser user) throws Exception {
+        user.setPassword(MD5.EncoderByMd5("123456"));
+        SystemUser login = userService.login(user.getUsername());
+        if(login != null){
+            return RestResponse.fail(200,"增加失败，用户名已存在!");
+        }else{
+            Integer integer = userService.insertUserService(user);
+            if(integer != 0 ){
+                //增加成功
+                return RestResponse.ok(100,"添加成功");
+            }else{
+                //增加失败
+                return RestResponse.fail(200,"增加失败，请重新尝试!");
+            }
+        }
+    }
+
+    //2.删除
+    @RequestMapping("/back/delUser")
+    @ResponseBody
+    public RestResponse delUser(String username) {
+        Integer integer = userService.delUserService(username);
+        if(integer != 0){
+            return RestResponse.ok(100,"删除成功");
+        }else{
+            return RestResponse.fail(200,"删除用户信息失败!");
+        }
+    }
+
+    //3.批量删除
+    @RequestMapping("/back/delAllUser")
+    @ResponseBody
+    public RestResponse delAllUser(String data) {
+        String[] split = data.split(",");
+        Integer integer = userService.batchDeleteUser(split);
+        if(integer != 0){
+            return RestResponse.ok(100,"删除成功");
+        }else{
+            return RestResponse.fail(200,"批量删除题目失败!");
+        }
+
+    }
+
+    //4.修改用户数据
+    @RequestMapping("/back/editUser")
+    @ResponseBody
+    public RestResponse editUser(SystemUser user) {
+        Integer integer = userService.updateServiceUser(user);
+        if(integer != 0){
+            return RestResponse.ok(100,"修改成功");
+        }else{
+            return RestResponse.fail(200,"修改失败!");
+        }
+    }
+
+    //5.搜索用户数据
+    @RequestMapping("/back/seach")
+    @ResponseBody
+    public RestResponse seach(String username,String college,String classNo,String role){
+
+        return RestResponse.fail(200,"修改失败!");
+    }
 }

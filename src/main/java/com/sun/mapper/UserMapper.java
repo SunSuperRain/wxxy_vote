@@ -31,4 +31,16 @@ public interface UserMapper {
 
     //获取除了督察组的所有用户
     List<SystemUser> findUserOnAdmin();
+
+    //插入用户
+    Integer insertUser(SystemUser user);
+
+    //根据用户名删除数据
+    Integer delUser(String user);
+
+    //根据用户名批量删除数据
+    Integer batchDeleteUser(String[] usernames);
+
+    //修改用户信息
+    Integer updateUser(SystemUser user);
 }

@@ -14,39 +14,39 @@
     <div class="layui-form-item">
       <label class="layui-form-label">用户名</label>
       <div class="layui-input-inline">
-        <input type="text" name="loginname" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <input type="text" name="username" disabled th:value="${user.getUsername()}" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">姓名</label>
       <div class="layui-input-inline">
-        <input type="text" name="name" lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        <input type="text" name="systemName" th:value="${user.getSystemName()}" lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">班级</label>
       <div class="layui-input-inline">
-        <input type="text" name="class" lay-verify="class" placeholder="请输入班级" autocomplete="off" class="layui-input">
+        <input type="text" name="classNo" th:value="${user.getClassNo()}" lay-verify="class" placeholder="请输入班级" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">学院</label>
       <div class="layui-input-inline">
-        <input type="text" name="collage" lay-verify="collage" placeholder="请输入学院" autocomplete="off" class="layui-input">
+        <select name="collegeNo">
+          <option  th:each="college:${colleges}" th:value="${college.getCollegeNo()}" th:text="${college.getCollegeName()}"></option>
+        </select>
       </div>
     </div>
     <div class="layui-inline">
       <label class="layui-form-label">角色</label>
       <div class="layui-input-block" style="width: 150px;">
-        <select name="role">
-          <option value="0">学生</option>
-          <option value="1">教师</option>
-          <option value="2">领导</option>
+        <select name="roleId">
+          <option  th:each="role:${roles}" th:value="${role.getRoleId()}" th:text="${role.getRoleName()}"></option>
         </select>
       </div>
     </div>
     <div class="layui-form-item layui-hide">
-      <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-back-submit" value="确认">
+      <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
     </div>
   </div>
 
@@ -58,7 +58,7 @@
     index: 'lib/index' //主入口模块
   }).use(['index', 'form'], function(){
     var $ = layui.$
-    ,form = layui.form ;
+    ,form = layui.form;
   })
   </script>
 </body>

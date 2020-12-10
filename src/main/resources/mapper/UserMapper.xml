@@ -32,4 +32,38 @@
         select * from sys_user where username = #{username} and password = #{password};
     </select>
 
+    <!--插入数据-->
+    <insert id="insertUser" parameterType="com.sun.entity.SystemUser">
+        insert into sys_user (username,password,systemName,classNo,collegeNo,roleId)
+        value (#{username},#{password},#{systemName},#{classNo},#{collegeNo},#{roleId});
+    </insert>
+
+    <!--根据用户名来删除数据-->
+    <delete id="delUser" parameterType="String">
+        delete from sys_user where username = #{username};
+    </delete>
+
+    <!--根据用户名来批量删除数据-->
+    <delete id="batchDeleteUser" parameterType="Integer">
+        delete from sys_user where username in
+        <foreach collection="usernames" item="username" open="(" separator="," close=")">
+            #{username}
+        </foreach>
+        ;
+    </delete>
+
+    <!--修改用户信息-->
+    <update id="updateUser" parameterType="SystemUser">
+        update sys_user set username=#{username},systemName=#{systemName},classNo=#{classNo},
+        collegeNo=#{collegeNo},roleId=#{roleId} where username=#{username};
+    </update>
+
+    <select id="queryUser" resultType="SystemUser">
+        select * from sys_user where 1=1 and roleId in (0,1,2)
+        <if test="username != null">and username like concat('%',#{username},'%') </if>
+        <if test="collegeNo != null">and collegeNo like concat('%',#{collegeNo},'%') </if>
+        <if test="classNo != null">and classNo like concat('%',#{classNo},'%') </if>
+        <if test="roleId != null">and roleId like concat('%',#{roleId},'%') </if>
+    </select>
+
 </mapper>

@@ -119,11 +119,12 @@
             success: function (res) {
               if (res.code == 100) {
                 console.log("successs : res ->", res);
+                layer.msg(res.msg, {time: 2000, icon: 1});
                 ajaxCode = 100;
               } else if (res.code == 200) {
                 console.log("error : res ->", res);
-                if (res.extend.mc_msg != null) {
-                  layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                if (res.msg != null) {
+                  layer.msg(res.msg, {time: 2000, icon: 5});
                 } else {
                   ajaxCode = 200;
                 }
@@ -166,11 +167,12 @@
                 success: function (res) {
                   if (res.code == 100) {
                     console.log("successs : res ->", res);
+                    layer.msg(res.msg, {time: 2000, icon: 1});
                     ajaxCode = 100;
                   } else if (res.code == 200) {
                     console.log("error : res ->", res);
-                    if (res.extend.mc_msg != null) {
-                      layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                    if (res.msg != null) {
+                      layer.msg(res.msg, {time: 2000, icon: 5});
                     } else {
                       ajaxCode = 200;
                     }
@@ -222,11 +224,12 @@
             success: function (res) {
               if (res.code == 100) {
                 console.log("successs : res ->", res);
+                layer.msg(res.msg, {time: 2000, icon: 1});
                 ajaxCode = 100;
               } else if (res.code == 200) {
                 console.log("error : res ->", res);
-                if (res.extend.mc_msg != null) {
-                  layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                if (res.msg != null) {
+                  layer.msg(res.msg, {time: 2000, icon: 5});
                 } else {
                   ajaxCode = 200;
                 }
@@ -276,11 +279,12 @@
                 success: function (res) {
                   if (res.code == 100) {
                     console.log("successs : res ->", res);
+                    layer.msg(res.msg, {time: 2000, icon: 1});
                     ajaxCode = 100;
                   } else if (res.code == 200) {
                     console.log("error : res ->", res);
-                    if (res.extend.mc_msg != null) {
-                      layer.msg(res.extend.mc_msg, {time: 2000, icon: 5});
+                    if (res.msg != null) {
+                      layer.msg(res.msg, {time: 2000, icon: 5});
                     } else {
                       ajaxCode = 200;
                     }

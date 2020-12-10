@@ -11,42 +11,45 @@
 <body>
 
   <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item" style="margin-bottom: 5px;color: red;">
+      <span style="padding-left: 60px;">默认密码为：123456（创建后建议修改密码）</span>
+    </div>
     <div class="layui-form-item">
       <label class="layui-form-label">用户名</label>
       <div class="layui-input-inline">
-        <input type="text" name="loginname" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <input type="text" name="username" lay-verify="required|number|length" placeholder="学号或职工号" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">姓名</label>
       <div class="layui-input-inline">
-        <input type="text" name="name" lay-verify="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        <input type="text" name="systemName" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">班级</label>
       <div class="layui-input-inline">
-        <input type="text" name="class" lay-verify="class" placeholder="请输入班级" autocomplete="off" class="layui-input">
+        <input type="text" name="class" lay-verify="" placeholder="请输入班级" autocomplete="off" class="layui-input">
       </div>
     </div>
     <div class="layui-form-item">
       <label class="layui-form-label">学院</label>
       <div class="layui-input-inline">
-        <input type="text" name="collage" lay-verify="collage" placeholder="请输入学院" autocomplete="off" class="layui-input">
+        <select name="college">
+          <option  th:each="college:${colleges}" th:value="${college.getCollegeNo()}" th:text="${college.getCollegeName()}"></option>
+        </select>
       </div>
     </div>
     <div class="layui-inline">
       <label class="layui-form-label">角色</label>
       <div class="layui-input-block" style="width: 150px;">
         <select name="role">
-          <option value="0">学生</option>
-          <option value="1">教师</option>
-          <option value="2">领导</option>
+          <option  th:each="role:${roles}" th:value="${role.getRoleId()}" th:text="${role.getRoleName()}"></option>
         </select>
       </div>
     </div>
     <div class="layui-form-item layui-hide">
-      <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-back-submit" value="确认">
+      <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
     </div>
   </div>
 
@@ -59,6 +62,17 @@
   }).use(['index', 'form'], function(){
     var $ = layui.$
     ,form = layui.form ;
+
+    //自定义验证规则
+    form.verify({
+      length: function (value) {
+        if (value.length >10 || value.length < 4) {
+          return '长度要在6-10之间';
+        }
+      }
+    });
+
+
   })
   </script>
 </body>

@@ -16,30 +16,32 @@
       <div class="layui-form layui-card-header layuiadmin-card-header-auto">
         <div class="layui-form-item">
           <div class="layui-inline">
-            <label class="layui-form-label">登录名</label>
+            <label class="layui-form-label">用户名</label>
             <div class="layui-input-block" style="width: 150px;">
-              <input type="text" name="loginname" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" id="username" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline layui-form-item">
+            <label class="layui-form-label">学院</label>
+            <div class="layui-input-inline">
+              <select name="college">
+                <option></option>
+                <option  th:each="college:${colleges}" th:value="${college.getCollegeNo()}" th:text="${college.getCollegeName()}"></option>
+              </select>
             </div>
           </div>
           <div class="layui-inline">
-            <label class="layui-form-label">手机</label>
+            <label class="layui-form-label">班级</label>
             <div class="layui-input-block" style="width: 150px;">
-              <input type="text" name="telphone" placeholder="请输入" autocomplete="off" class="layui-input">
-            </div>
-          </div>
-          <div class="layui-inline">
-            <label class="layui-form-label">邮箱</label>
-            <div class="layui-input-block" style="width: 150px;">
-              <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
+              <input type="text" id="classNo" name="classNo" placeholder="请输入" autocomplete="off" class="layui-input">
             </div>
           </div>
           <div class="layui-inline">
             <label class="layui-form-label">角色</label>
             <div class="layui-input-block" style="width: 150px;">
-              <select name="role" >
-                <option value="0">学生</option>
-                <option value="1">教师</option>
-                <option value="2">领导</option>
+              <select name="role">
+                <option></option>
+                <option  th:each="role:${roles}" th:value="${role.getRoleId()}" th:text="${role.getRoleName()}"></option>
               </select>
             </div>
           </div>
@@ -117,24 +119,26 @@
     </div>
   </div>
 
- <script th:src="@{/layuiadmin/layui/layui.js}"></script>
+  <script th:src="@{/layuiadmin/layui/layui.js}"></script>
   <script>
   layui.config({
     base: '/layuiadmin/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'useradmin', 'table'], function(){
+  }).use(['index', 'useradmin', 'table','layer'], function(){
     var $ = layui.$
     ,form = layui.form
+    ,layer = layui.layer
     ,table = layui.table;
 
     table.render({
       elem:'#LAY-user-back-manage',
       height: 350,
       url: "/back/systemuser",
+      id: 'allTable',
       title:'学生评教题目表',
       page: true,
-      limit:6,
+      limit:7,
       cols:[
         [
            {field: 'no',type: 'checkbox',fixed : 'left'}
@@ -157,72 +161,173 @@
       }
     });
 
-      //监听头工具栏事件
-      table.on('tool(back-manage)', function(obj){
-          //获得当前行数据,获得 lay-event 对应的值
-          var data = obj.data,layEvent = obj.event;
-          if(layEvent === 'del'){
-              layer.confirm('真的删除行么', function(index){
-                  obj.del(); //删除对应行（tr）的DOM结构
-                  layer.close(index);
-                  //向服务端发送删除指令
-              });
-          } else if(layEvent === 'edit'){
-              layer.open({
-                  type: 2
-                  ,title: '编辑人员'
-                  ,content: '/back/adminformEd'
-                  ,area: ['420px', '420px']
-                  ,btn: ['确定', '取消']
-                  ,yes: function(index, layero){
-                      var iframeWindow = window['layui-layer-iframe'+ index]
-                          ,submitID = 'LAY-user-back-submit'
-                          ,submit = layero.find('iframe').contents().find('#'+ submitID);
-
-                      //监听提交
-                      iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-                          var field = data.field; //获取提交的字段
-
-                          //提交 Ajax 成功后，静态更新表格中的数据
-                          //$.ajax({});
-                          table.reload('LAY-user-front-submit'); //数据刷新
-                          layer.close(index); //关闭弹层
-                      });
-
-                      submit.trigger('click');
-                  }
-              });
-          }
+    //监听搜索
+    form.on('submit(LAY-user-back-search)',function (data) {
+      var field = data.field;
+      var username = $('#username');
+      var collegeNo = $('#collegeNo');
+      var classNo = $('#classNo');
+      var roleId = $('#roleId');
+      //执行重载
+      table.reload('tableSearch',{
+        mehtod:'post'
+        ,page: {
+          curr: 1 //重新从第一页开始
+        }
+        ,where: {
+          username: username.val(),
+          collegeNo: collegeNo.val(),
+          classNo: classNo.val(),
+          roleId: roleId.val(),
+          page: 1,
+          limit: 7
+        }
       });
+    });
+
+    //监听头工具栏事件
+    table.on('tool(back-manage)', function(obj){
+        //获得当前行数据,获得 lay-event 对应的值
+        var data = obj.data,layEvent = obj.event;
+        if(layEvent === 'del'){
+            layer.confirm('真的删除行么', function(index){
+                obj.del(); //删除对应行（tr）的DOM结构
+                layer.close(index);
+                //向服务端发送删除指令
+
+                $.ajax({
+                  url: '/back/delUser',
+                  type: 'POST',
+                  data: {
+                    "username" : data.username
+                  },
+                  success: function (res) {
+                    if (res.code == 100) {
+                      console.log("successs : res ->", res);
+                      layer.msg(res.msg, {time: 2000, icon: 1});
+                      ajaxCode = 100;
+                    } else if (res.code == 200) {
+                      console.log("error : res ->", res);
+                      if (res.msg != null) {
+                        layer.msg(res.msg, {time: 2000, icon: 5});
+                      } else {
+                        ajaxCode = 200;
+                      }
+                    }
+                  },
+                  error: function () {
+                    layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+                  }
+                })
+            });
+        } else if(layEvent === 'edit'){
+            layer.open({
+                type: 2
+                ,title: '编辑人员'
+                ,content: '/back/adminformEd/' + data.username
+                ,area: ['450px', '450px']
+                ,btn: ['确定', '取消']
+                ,yes: function(index, layero){
+                    var iframeWindow = window['layui-layer-iframe'+ index]
+                        ,submitID = 'LAY-user-front-submit'
+                        ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
+                    //监听提交
+                    iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                        var field = data.field; //获取提交的字段
+
+                        //提交 Ajax 成功后，静态更新表格中的数据
+                        //$.ajax({});
+                        $.ajax({
+                          url: '/back/editUser',
+                          type: 'POST',
+                          data: {
+                            "username":field.username,
+                            "systemName":field.systemName,
+                            "classNo":field.classNo,
+                            "collegeNo":field.collegeNo,
+                            "roleId":field.roleId
+                          },
+                          success: function (res) {
+                            if (res.code == 100) {
+                              console.log("successs : res ->", res);
+                              layer.msg(res.msg, {time: 2000, icon: 1});
+                              ajaxCode = 100;
+                            } else if (res.code == 200) {
+                              console.log("error : res ->", res);
+                              if (res.msg != null) {
+                                layer.msg(res.msg, {time: 2000, icon: 5});
+                              } else {
+                                ajaxCode = 200;
+                              }
+                            }
+                          },
+                          error: function () {
+                            layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+                          }
+                        })
+
+                        table.reload('allTable'); //数据刷新
+                        table.reload('allTable'); //数据刷新
+                        layer.close(index); //关闭弹层
+                    });
+
+                    submit.trigger('click');
+                }
+            });
+        }
+    });
   
     //事件
     var active = {
       batchdel: function(){
-        var checkStatus = table.checkStatus('LAY-user-back-manage')
+        var checkStatus = table.checkStatus('allTable')
         ,checkData = checkStatus.data; //得到选中的数据
 
         if(checkData.length === 0){
           return layer.msg('请选择数据');
         }
 
-        layer.prompt({
-          formType: 1
-          ,title: '敏感操作，请验证口令'
-        }, function(value, index){
-          layer.close(index);
+        layer.confirm('确定删除吗？', function(index) {
 
-          layer.confirm('确定删除吗？', function(index) {
+          //执行 Ajax 后重载
+          var str = "";
+          for (var i = 0; i < checkData.length; i++) {
+            if(i + 1 == checkData.length){
+              str += checkData[i].username;
+            }else{
+              str += checkData[i].username + ",";
+            }
+          }
 
-            //执行 Ajax 后重载
-            /*
-            admin.req({
-              url: 'xxx'
-              //,……
-            });
-            */
-            table.reload('LAY-user-back-manage');
-            layer.msg('已删除');
-          });
+          $.ajax({
+            url: '/back/delAllUser',
+            type: 'POST',
+            data: {
+              "data" : str
+            },
+            success: function (res) {
+              if (res.code == 100) {
+                console.log("successs : res ->", res);
+                layer.msg(res.msg, {time: 2000, icon: 1});
+                ajaxCode = 100;
+              } else if (res.code == 200) {
+                console.log("error : res ->", res);
+                if (res.msg != null) {
+                  layer.msg(res.msg, {time: 2000, icon: 5});
+                } else {
+                  ajaxCode = 200;
+                }
+              }
+            },
+            error: function () {
+              layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+            }
+          })
+
+          table.reload('allTable');
+          table.reload('allTable');
+          layer.msg('已删除');
         });
       }
       ,add: function(){
@@ -230,12 +335,13 @@
           type: 2
           ,title: '添加人员'
           ,content: '/back/adminform'
-          ,area: ['420px', '420px']
+          ,area: ['450px', '450px']
           ,btn: ['确定', '取消']
           ,yes: function(index, layero){
             var iframeWindow = window['layui-layer-iframe'+ index]
-            ,submitID = 'LAY-user-back-submit'
+            ,submitID = 'LAY-user-front-submit'
             ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
 
             //监听提交
             iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
@@ -243,7 +349,37 @@
 
               //提交 Ajax 成功后，静态更新表格中的数据
               //$.ajax({});
-              table.reload('LAY-user-front-submit'); //数据刷新
+              $.ajax({
+                url: '/back/addSystemUser',
+                type: 'POST',
+                data: {
+                  "username" : field.username,
+                  "systemName" : field.systemName,
+                  "classNo" : field.class,
+                  "collegeNo" : field.college,
+                  "roleId" : field.role
+                },
+                success: function (res) {
+                  if (res.code == 100) {
+                    console.log("successs : res ->", res);
+                    layer.msg(res.msg, {time: 2000, icon: 1});
+                    ajaxCode = 100;
+                  } else if (res.code == 200) {
+                    console.log("error : res ->", res);
+                    if (res.msg != null) {
+                      layer.msg(res.msg, {time: 2000, icon: 5});
+                    } else {
+                      ajaxCode = 200;
+                    }
+                  }
+                },
+                error: function () {
+                  layer.msg("增加失败，请重试!", {time: 1000, icon: 7});
+                }
+              })
+
+              table.reload('allTable'); //数据刷新
+              table.reload('allTable'); //数据刷新
               layer.close(index); //关闭弹层
             });
 
